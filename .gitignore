@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.kintsugi/
+*.tsbuildinfo
+coverage/
