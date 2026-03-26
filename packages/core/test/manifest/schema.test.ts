@@ -81,3 +81,55 @@ describe('ManifestSchema', () => {
     expect(result.success).toBe(true);
   });
 });
+
+import { parseManifestFile, serializeManifest } from '../../src/manifest/schema';
+
+describe('parseManifestFile', () => {
+  it('parses valid JSON string into Manifest', () => {
+    const json = JSON.stringify({
+      version: '0.1.0',
+      generator: 'kintsugi-cli/0.1.0',
+      generatedAt: '2026-03-27T14:00:00Z',
+      project: {
+        name: 'test',
+        framework: 'html',
+        language: 'html',
+        entrypoints: ['index.html'],
+        renderMode: 'static',
+      },
+      annotations: {},
+    });
+
+    const result = parseManifestFile(json);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.project.name).toBe('test');
+    }
+  });
+
+  it('returns error for invalid JSON', () => {
+    const result = parseManifestFile('not json');
+    expect(result.success).toBe(false);
+  });
+});
+
+describe('serializeManifest', () => {
+  it('produces valid JSON', () => {
+    const manifest = {
+      version: '0.1.0',
+      generator: 'kintsugi-cli/0.1.0',
+      generatedAt: '2026-03-27T14:00:00Z',
+      project: {
+        name: 'test',
+        framework: 'html' as const,
+        language: 'html',
+        entrypoints: ['index.html'],
+        renderMode: 'static' as const,
+      },
+      annotations: {},
+    };
+    const json = serializeManifest(manifest);
+    const parsed = JSON.parse(json);
+    expect(parsed.version).toBe('0.1.0');
+  });
+});
