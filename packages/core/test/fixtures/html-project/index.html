@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test</title>
+</head>
+<body>
+  <!-- kintsugi:page-title {"type":"text","label":"Page Title","cms":"editable","constraints":{"maxLength":60}} -->
+  <h1>Welcome</h1>
+  <!-- /kintsugi:page-title -->
+
+  <!-- kintsugi:about {"type":"richtext","label":"About","cms":"editable","constraints":{"maxLength":2000,"allowedTags":["p","strong","em"]}} -->
+  <div class="prose"><p>About us content.</p></div>
+  <!-- /kintsugi:about -->
+
+  <!-- kintsugi:theme {"type":"style","label":"Theme","cms":"human-only","constraints":{"cssProperties":["background-color"],"allowedValues":["#1a1a2e","#16213e"]}} -->
+  <section style="background-color: #1a1a2e;">
+  <!-- /kintsugi:theme -->
+
+  <!-- kintsugi:team {"type":"data","label":"Team","cms":"editable","constraints":{"schema":{"type":"array","items":{"type":"object","properties":{"name":{"type":"string"}}}}}} -->
+  <script type="application/json">[{"name":"Cem"}]</script>
+  <!-- /kintsugi:team -->
+</body>
+</html>
