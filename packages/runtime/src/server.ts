@@ -20,6 +20,7 @@ export interface AppState {
 declare module 'hono' {
   interface ContextVariableMap {
     state: AppState;
+    authUser: string;
   }
 }
 
