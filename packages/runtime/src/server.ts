@@ -54,11 +54,18 @@ if (isMain) {
   const { createRegistry } = await import('./lib/registry-loader');
   const { parseManifestFile } = await import('@kintsugi/core');
 
+  const { readFile } = await import('node:fs/promises');
   const config = loadConfig();
-  const manifest = await parseManifestFile(config.manifestPath);
-  const registry = await createRegistry(config.storagePath);
 
-  const app = createApp({ config, manifest, registry });
+  const raw = await readFile(config.manifestPath, 'utf-8');
+  const parsed = parseManifestFile(raw);
+  if (!parsed.success) {
+    console.error(`Failed to load manifest: ${parsed.error}`);
+    process.exit(1);
+  }
+
+  const registry = await createRegistry(config.storagePath);
+  const app = createApp({ config, manifest: parsed.data, registry });
 
   serve({ fetch: app.fetch, port: config.port }, (info) => {
     console.log(`@kintsugi/runtime listening on http://localhost:${info.port}`);
